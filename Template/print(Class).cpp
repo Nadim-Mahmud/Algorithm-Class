@@ -468,6 +468,17 @@ int query(int low,int high,int qlow,int qhigh,int pos,int val){
     return query(low,mid,qlow,qhigh,pos*2,val) + query(mid+1,high,qlow,qhigh,pos*2+1,val);
 }
 
+///  *** Disjoint Set Union Find [n||1]
+
+int parent(int n)
+{
+    if(rp[n]==n)return n;
+    return rp[n]=parent(rp[n]);
+}
+void setUp(int a,int b){
+    rp[parent(b)]=parent(a);
+}
+
 
 ///        COMPUTATIONAL GEOMETRY
 
@@ -563,7 +574,7 @@ bool convexHull(int n){
     st.push(points[1]);
     st.push(points[2]);
     for(i=3;i<=in;i++){
-        ///only valid sequence is ant-clockwise
+        ///only valid sequence is anti-clockwise
         while(orientation(nextToTop(st),st.top(),points[i])!=2){
             st.pop();
         }
@@ -661,14 +672,15 @@ double convexHull(int n)
 		q = (p+1)%n;
 		for (int i = 0; i < n; i++)
 		{
-		if (orientation(points[p], points[i], points[q]) == 2)
+            if (orientation(points[p], points[i], points[q]) == 2)
 			q = i;
 		}
-
 		p = q;
 
 	} while (p != l);
+
     double ans = distd(hull[0],hull[hull.size()-1]);
+
 	for (int i = 0; i<hull.size()-1; i++){
         ans += distd(hull[i],hull[i+1]);
         //cout<<hull[i].x<<" "<<hull[i].y<<endl;
